@@ -92,6 +92,41 @@ You can also set a fallback value in case the parameter wasn't set:
 $name = $req->input('name', 'Bob'); // If the 'name' parameter is not set, it will default to 'Bob'
 ```
 
+## Responses
+
+First, you'll need to import the Response class `use Illuminate\Http\Response`
+
+With this, you can customize your response's header and status, here is the basic syntax:
+```php
+Route::get('/', function () {
+    return (new Response($content, $status))
+                  ->header($var, $value);
+});
+```
+
+And here is an example:
+```php
+Route::get('/', function () {
+    return (new Response('{Hello world!}', 200))
+                  ->header('Content-Type', 'application/json');
+});
+```
+
+In this example, I returned JSON, as I set `Content-Type: application/json` in the header, and the page was returned with a status 200.
+
+You can of course change the status of the response, and you can also return custom header values ( I still hasn't find any use for that tho ):
+
+```php
+Route::get('/', function () {
+    return (new Response('Hi there', 404))
+                  ->header('Content-Type','text/html')
+                  ->header('And-his-name-is','JOHN CENA');
+});
+```
+
+Here we set the status of the response to 404 and we set a custom header element to JOHN CENA
+
+
 # Use cases
 
 #### Combining routes and controllers
