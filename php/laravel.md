@@ -177,7 +177,7 @@ HTTP Middleware is a way to filter and redirect HTTP requests before processing 
 #### Creating a Middleware
 
 1. Navigate to the root folder of the project and execute this command:
-  ```shell
+  ```bash
   php artisan make:middleware MiddlewareName
   ```
 2. A file `MiddlewareName.php` wille be created in `app/Http/Middleware`
