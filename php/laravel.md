@@ -153,6 +153,8 @@ And you can also easily return JSON with the json() method:
 return response()->json(['name' => 'Rominou', 'age' => 19, 'sex' => 'big']);
 ```
 
+*More to come once I'll get better at Laravel*
+
 ## Cookies
 
 You can set cookies in your responses the same way you set headers:
@@ -168,6 +170,37 @@ You can pass more parameters in your cookie constructor for more customization:
 ->cookie($name, $value, $minutes, $path, $domain, $secure, $httpOnly)
 ```
 
+## Middlewares
+
+HTTP Middleware is a way to filter and redirect HTTP requests before processing them with a controller
+
+#### Creating a Middleware
+
+1. Navigate to the root folder of the project and execute this command:
+  ```shell
+  php artisan make:middleware MiddlewareName
+  ```
+2. A file `MiddlewareName.php` wille be created in `app/Http/Middleware`
+3. Inside the file `app/Http/Kernel.php`, add this in the array `protected $middlewareGroups`:
+```php
+'MiddlewareName' => [
+      \App\Http\Middleware\MiddlewareName::class,
+],
+```
+4. Finally, to add your middleware to a set of routes, go into and assing your routes to the middleware:
+  * Either add the routes inside the middleware declaration:
+  ```php
+  Route::group(['middleware' => ['MiddlewareName']], function () {
+  	Route::get('/', function () { // Do something});
+      Route::post('/','Controller@function');
+  });
+  ```
+  * Or assign the middleware to each route:
+  ```php
+  Route::get('/', ['middleware' => 'MiddlewareName', function() {}]);
+  // Assign multiple middlewares to a route
+  Route::post('/', ['middleware' => ['Mid1', 'Mid2'], function() {}]);
+  ```
 # Use cases
 
 #### Combining routes and controllers
