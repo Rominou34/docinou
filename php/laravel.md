@@ -126,6 +126,47 @@ Route::get('/', function () {
 
 Here we set the status of the response to 404 and we set a custom header element to JOHN CENA
 
+**NOTE: The convention for custom HTTP headers is to start their name with 'X-' so this header should actually be rename 'X-And-his-name-is'**
+
+*Alternative syntax*
+
+You can pass an array of headers as a parameter instead of passing all headers one by one:
+```php
+return response($content)
+            ->withHeaders([
+                'Content-Type' => $type,
+                'X-Header-One' => 'Header Value',
+                'X-Header-Two' => 'Header Value',
+            ]);
+```
+
+#### Return options
+
+If you wish to return a view as your response's content, you can use the `view` method:
+```php
+return response()
+            ->view('view', $data)
+```
+
+And you can also easily return JSON with the json() method:
+```php
+return response()->json(['name' => 'Rominou', 'age' => 19, 'sex' => 'big']);
+```
+
+## Cookies
+
+You can set cookies in your responses the same way you set headers:
+
+```php
+return response($content)
+                ->cookie('name', 'value');
+```
+
+You can pass more parameters in your cookie constructor for more customization:
+
+```php
+->cookie($name, $value, $minutes, $path, $domain, $secure, $httpOnly)
+```
 
 # Use cases
 
