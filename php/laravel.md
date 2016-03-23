@@ -201,11 +201,43 @@ HTTP Middleware is a way to filter and redirect HTTP requests before processing 
   // Assign multiple middlewares to a route
   Route::post('/', ['middleware' => ['Mid1', 'Mid2'], function() {}]);
   ```
+
+## Views
+
+Laravel views contain the HTML code we will display on the website, they are located in the folder `resources/views`.
+
+To create a new view, just create a new files in the folder: `resources/views/welcome.php`
+
+Then, put some HTML code in it:
+
+```html
+<div class="msg">
+  <h1>Welcome <?php echo $name; ?></h1>
+</div>
+```
+
+Then, call your view ( from your route or controller ) like this:
+
+```php
+Route::get('/', function () {
+    return view('welcome', ['name' => 'James']);
+});
+```
+
+You can also pass an object as a parameter:
+
+```html
+<div class="userInfo">
+  <p>ID: <?php echo $user->id; ?></p>
+  <p>Name: <?php echo $user->name; ?></p>
+</div>
+```
+
 # Use cases
 
-#### Combining routes and controllers
+#### Combining routes, controllers and views to display and register users
 
-Here are an example `routes.php` and `ControllerUsers.php` that act like this:
+Here are example files `routes.php`, `ControllerUsers.php` and `viewUser.php` that act like this:
 * GET request on `user/` shows all users
 * GET request on `user/{id}` shows the user with the corresponding id
 * POST request on `user/` inserts a new user in the BDD with the required parameters
@@ -271,4 +303,13 @@ class ControllerUsers extends BaseController
       updateThisNigga($id);
     }
 }
+```
+
+*viewUser.php*
+```html
+<div class="userInfo">
+  <p>User id: <?php echo $user->id; ?></p>
+  <p>User name: <?php echo $user->name; ?></p>
+  <p>User surname: <?php echo $user->surname; ?></p>
+</div>
 ```
