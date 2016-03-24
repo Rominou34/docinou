@@ -205,11 +205,11 @@ HTTP Middlewares are used to filter and redirect HTTP requests before processing
       \App\Http\Middleware\MiddlewareName::class,
 ],
 ```
-* Finally, to add your middleware to a set of routes, go into and assing your routes to the middleware:
+* Finally, to add your middleware to a set of routes, go into `routes.php` and assign your routes to the middleware:
   * Either add the routes inside the middleware declaration:
   ```php
   Route::group(['middleware' => ['MiddlewareName']], function () {
-  	Route::get('/', function () { // Do something});
+    Route::get('/', function () { /* Do something */ });
       Route::post('/','Controller@function');
   });
   ```
