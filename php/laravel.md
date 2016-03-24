@@ -20,8 +20,7 @@
 
 1. Install Composer
 2. From any folder: `composer global require "laravel/installer"` ( also works with Lumen by using `"laravel/lumen-installer"` )
-3.  * This: `composer create-project --prefer-dist laravel/lumen projet`
-  * Or this: `laravel new projet`
+3. Create your project by exectuing this command from the folder where you want it: `composer create-project --prefer-dist laravel/lumen projet`. It also works with this one: `laravel new projet`
 4. Go to the `.env` file and change these settings ( localhost on WAMP ):
   ```
   DB_HOST=127.0.0.1:3306
@@ -194,18 +193,18 @@ HTTP Middlewares are used to filter and redirect HTTP requests before processing
 
 #### Creating a Middleware
 
-1. Navigate to the root folder of the project and execute this command:
+* Navigate to the root folder of the project and execute this command:
   ```
   php artisan make:middleware MiddlewareName
   ```
-2. A file `MiddlewareName.php` wille be created in `app/Http/Middleware`
-3. Inside the file `app/Http/Kernel.php`, add this in the array `protected $middlewareGroups`:
+* A file `MiddlewareName.php` wille be created in `app/Http/Middleware`
+* Inside the file `app/Http/Kernel.php`, add this in the array `protected $middlewareGroups`:
 ```php
 'MiddlewareName' => [
       \App\Http\Middleware\MiddlewareName::class,
 ],
 ```
-4. Finally, to add your middleware to a set of routes, go into and assing your routes to the middleware:
+* Finally, to add your middleware to a set of routes, go into and assing your routes to the middleware:
   * Either add the routes inside the middleware declaration:
   ```php
   Route::group(['middleware' => ['MiddlewareName']], function () {
