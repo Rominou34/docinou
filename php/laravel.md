@@ -22,6 +22,7 @@
 2. From any folder: `composer global require "laravel/installer"` ( also works with Lumen by using `"laravel/lumen-installer"` )
 3. Create your project by exectuing this command from the folder where you want it: `composer create-project --prefer-dist laravel/lumen projet`. It also works with this one: `laravel new projet`
 4. Go to the `.env` file and change these settings ( localhost on WAMP ):
+
   ```
   DB_HOST=127.0.0.1:3306
   DB_PORT=3306
