@@ -1,5 +1,22 @@
 # Laravel Documentation
 
+## Table of contents
+
+* [Installation](#installation)
+* Basics
+  * [Routes](#routes)
+  * [Controllers](#controllers)
+  * [Requests](#requests)
+  * [Responses](#responses)
+  * [Cookies](#cookies)
+  * [Middlewares](#middlewares)
+  * [Views](#views)
+* Database
+  * Soon...
+* Use cases
+  * [Combining routes, controllers and views to display and register users](#combining-routes-controllers-and-views-to-display-and-register-users)
+
+# Basics
 ## Installation
 
 1. Install Composer
@@ -107,7 +124,7 @@ Route::get('/', function () {
 And here is an example:
 ```php
 Route::get('/', function () {
-    return (new Response('{Hello world!}', 200))
+    return (new Response('{value: 1}', 200))
                   ->header('Content-Type', 'application/json');
 });
 ```
@@ -172,7 +189,7 @@ You can pass more parameters in your cookie constructor for more customization:
 
 ## Middlewares
 
-HTTP Middleware is a way to filter and redirect HTTP requests before processing them with a controller
+HTTP Middlewares are used to filter and redirect HTTP requests before processing them with a controller
 
 #### Creating a Middleware
 
@@ -235,7 +252,7 @@ You can also pass an object as a parameter:
 
 # Use cases
 
-#### Combining routes, controllers and views to display and register users
+#### Combining routes controllers and views to display and register users
 
 Here are example files `routes.php`, `ControllerUsers.php` and `viewUser.php` that act like this:
 * GET request on `user/` shows all users
