@@ -11,13 +11,12 @@
   * [Cookies](#cookies)
   * [Middlewares](#middlewares)
   * [Views](#views)
-* Database
+* Databases
   * Soon...
 * Use cases
   * [Combining routes, controllers and views to display and register users](#combining-routes-controllers-and-views-to-display-and-register-users)
 
-# Basics
-## Installation
+# Installation
 
 1. Install Composer
 2. From any folder: `composer global require "laravel/installer"` ( also works with Lumen by using `"laravel/lumen-installer"` )
@@ -32,6 +31,8 @@
   DB_PASSWORD=''
   ```
 5. Screw that shit, I'll make my own framework
+
+# Basics
 
 ## Routes
 
@@ -249,6 +250,10 @@ You can also pass an object as a parameter:
   <p>Name: <?php echo $user->name; ?></p>
 </div>
 ```
+
+# Databases
+
+## Configuration
 
 # Use cases
 
