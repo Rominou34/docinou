@@ -272,7 +272,21 @@ Display some variable using `{{ $var }}`
 
 **Include files**
 
-Include another file using `@include('header')` **NOTE:** It is possible to include while using values, for example you can put `<header>{{ $title }}</header>` in your file `header.blade.php` and include it like this: `@include('header', ['title'=>'The header's title goes here'])`
+Include another file using `@include('header')`
+
+**NOTE:** It is possible to include while using values, for example you can put `<header>{{ $title }}</header>` in your file `header.blade.php` and include it like this:
+
+```php
+@include('header', ['title'=>'The header's title goes here'])
+```
+
+**Blade comments**
+
+You can put comments inside your Blade files that won't appear in your rendered HTML file ( like PHP comments and contrary to HTML comments )
+
+```php
+{{-- This comment will not be present in the rendered HTML --}}
+```
 
 ## Control structures
 
