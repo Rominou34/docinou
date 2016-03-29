@@ -14,7 +14,7 @@
 * Databases
   * Soon...
 * [Blade Templating](#blade-templating)
-  * [Basics](#basics)
+  * [Basics](#blade-basics)
   * [Control structures](#control-structures)
 * Use cases
   * [Combining routes, controllers and views to display and register users](#combining-routes-controllers-and-views-to-display-and-register-users)
@@ -264,7 +264,7 @@ Blade is the templating system of Laravel, used to insert content inside a HTML 
 
 To use Blade on a PHP file, use the .blade.php file extension
 
-## Basics
+## Blade Basics
 
 **Displaying a variable**
 
