@@ -262,13 +262,25 @@ You can also pass an object as a parameter:
 
 Blade is the templating system of Laravel, used to insert content inside a HTML template ( because `<?php echo();?>` is 2 hazbeen )
 
-To use Blade on a PHP file, use the .blade.php file extension
+To use Blade on a PHP file, use the .blade.php file extension, and just return the file like any view using the `view()` function:
+
+```php
+Route::get('blade', function () {
+    return view('template');
+});
+```
 
 ## Blade Basics
 
-**Displaying a variable**
+**Echoing a variable**
 
 Display some variable using `{{ $var }}`
+
+You can choose to echo a variable with a default fallback value like this:
+
+```php
+{{ $name or 'Default' }}
+```
 
 **Include files**
 
