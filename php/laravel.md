@@ -13,6 +13,9 @@
   * [Views](#views)
 * Databases
   * Soon...
+* [Blade Templating](#blade-templating)
+  * [Basics](#basics)
+  * [Control structures](#control-structures)
 * Use cases
   * [Combining routes, controllers and views to display and register users](#combining-routes-controllers-and-views-to-display-and-register-users)
 
@@ -254,6 +257,88 @@ You can also pass an object as a parameter:
 # Databases
 
 ## Configuration
+
+# Blade Templating
+
+Blade is the templating system of Laravel, used to insert content inside a HTML template ( because `<?php echo();?>` is 2 hazbeen )
+
+To use Blade on a PHP file, use the .blade.php file extension
+
+## Basics
+
+**Displaying a variable**
+
+Display some variable using `{{ $var }}`
+
+**Include files**
+
+Include another file using `@include('header')` **NOTE:** It is possible to include while using values, for example you can put `<header>{{ $title }}</header>` in your file `header.blade.php` and include it like this: `@include('header', ['title'=>'The header's title goes here'])`
+
+## Control structures
+
+You can ( and should ) use control structures like if, else, loops, and all these cool things
+
+**If - else**
+
+```php
+@if (id == 1)
+  // Do something
+@elsif (id > 1)
+  // Do some other things
+@else
+  // Do nothing
+@endif
+```
+
+**Unless**
+
+```php
+@unless (id == 1)
+  You are not admin you pleb
+@endunless
+```
+
+**Loops**
+
+Blade actually offers a lot of loops so you have a lot of choice to do things
+
+```php
+@for ($i = 0; $i < 10; $i++)
+    The current value is {{ $i }}
+@endfor
+
+@foreach ($users as $user)
+    <p>This is user {{ $user->id }}</p>
+@endforeach
+
+@forelse ($users as $user)
+    <li>{{ $user->name }}</li>
+@empty
+    <p>No users</p>
+@endforelse
+
+@while (true)
+    <p>I'm looping forever.</p>
+@endwhile
+```
+
+**Breaking loops**
+
+You can break loops using `@break` or skip the current iteration using `@continue`
+
+```php
+@foreach ($users as $user)
+    @if($user->type == 1)
+        @continue
+    @endif
+
+    <li>{{ $user->name }}</li>
+
+    @if($user->number == 5)
+        @break
+    @endif
+@endforeach
+```
 
 # Use cases
 
