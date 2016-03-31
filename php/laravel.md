@@ -246,6 +246,44 @@ HTTP Middlewares are used to filter and redirect HTTP requests before processing
     });
   });
   ```
+#### How it works
+
+
+#### Before / After Middlewares
+
+Middlewares can do their job *before* or *after* a request is being processed by the application. You choose this by putting your code *before* or *after* `$next($request)`:
+
+```php
+public function handle($request, Closure $next)
+{
+  // Your action will be performed before the request is being process
+  return $next($request);
+}
+
+public function handle($request, Closure $next)
+{
+  //We send the request deeper in the application
+  $response = $next($request);
+
+  // And we do our thing when it comes back
+  return $response;
+}
+```
+
+**Terminating middleware**
+
+Sometimes you want the middleware to do some work after the HTTP response has been sent to the browser ( in the example of a cache system, you send the response to the browser and then cache it ). Terminating middlewares are here for that, just put a `terminate()` function inside your middleware and it will terminate the shit our of Sarah Connor:
+
+```php
+public function terminate($request, $response)
+{
+    // Cache your page
+}
+```
+
+You can put both `handle()` and `terminate()` functions inside one middleware so he does work on both sides.
+
+You can see a full code example [here](#using-a-middleware-to-cache-pages)
 
 ## Views
 
@@ -325,6 +363,18 @@ The method `Cache::add()` will add an item to the cache only if it doesn't exist
 ```php
 // Returns true if it added the item or false if it already existed
 Cache::add('key', 'value', $minutes);
+```
+
+#### Deleting items
+
+If you want to delete an item from the cahce use the `Cache::forget()` function:
+```php
+Cache::forget('key');
+```
+
+You can either flush the whole cache with the `flush()` method, however **it doesn't espect the cache prefix** so if you run multiple Laravel websites it will delete the cache of all of them:
+```php
+Cache::flush();
 ```
 
 #### Helper functions
@@ -532,4 +582,53 @@ class ControllerUsers extends BaseController
   <p>User name: <?php echo $user->name; ?></p>
   <p>User surname: <?php echo $user->surname; ?></p>
 </div>
+```
+
+
+#### Using a middleware to cache pages
+
+This is a basic middleware I coded during my internship in order to cache static pages of a website
+
+*CachePage.php*
+```php
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Cache;
+use Carbon\Carbon;
+use Illuminate\Http\Response;
+
+class CachePage
+{
+    /*
+    * Handles the incoming request and checks the cache
+    * If the page already exists in the cache, return the one from the cache,
+    * else return the actual webpage from the site
+    */
+     public function handle($request, Closure $next)
+     {
+       if(Cache::has($request->fullUrl())) {
+         return response(Cache::get($request->fullUrl()));
+       } else {
+         return $next($request);
+       }
+
+     }
+
+     /*
+     * After the response ( the webpage ) has been sent to the browser,
+     * it will save it in the cache if it isn't already there
+     * NOTE: I know I could use Cache:add()
+     */
+     public function terminate($request,Response $response)
+     {
+       // The pages will expire after one day ( 24 * 60 minutes = 1440 )
+       $expiresAt = Carbon::now()->addMinutes(1440);
+       if(!Cache::has($request->fullUrl())) {
+         Cache::put($request->fullUrl(),$response->getContent(), $expiresAt);
+       }
+    }
+}
 ```
