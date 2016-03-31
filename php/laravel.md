@@ -14,7 +14,7 @@
 * Databases
   * Soon...
 * Services
-  * [Cache](#Cache)
+  * [Cache](#cache)
 * [Blade Templating](#blade-templating)
   * [Basics](#blade-basics)
   * [Control structures](#control-structures)
