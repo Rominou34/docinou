@@ -13,6 +13,8 @@
   * [Views](#views)
 * Databases
   * Soon...
+* Services
+  * [Cache](#Cache)
 * [Blade Templating](#blade-templating)
   * [Basics](#blade-basics)
   * [Control structures](#control-structures)
@@ -280,6 +282,69 @@ You can also pass an object as a parameter:
 
 ## Configuration
 
+# Services
+
+## Cache
+
+Laravel makes Caching items pretty easy vie the `Cache` facade. Just put some caching functions inside a middleware on your static pages and you're good.
+
+#### Retrieve items
+
+You can retrieve the value of an item in the cache with the `Cache::get()` function:
+```php
+$value = Cache::get('key');
+$value = Cache::get('key', 'default');
+```
+
+You can also retrieve items and delete them at the same time by using the `Cache::pull()` function:
+```php
+$value = Cache::pull('key');
+```
+
+Both functions will return `null` if no item with the specified key exists
+
+#### Storing items
+
+You can store items using the `Cache::put()` function:
+
+```php
+// You can specify the duration of the item by giving the number of minutes
+Cache::put('key', 'value', $minutes);
+
+// Or you can use a PHP DateTime ( if you use Carbon don't forget to use Carbon\Carbon; )
+$expiresAt = Carbon::now()->addMinutes(10);
+Cache::put('key', 'value', $expiresAt);
+```
+
+If you want to store an item forever, use the `Cache::forever()` function:
+```php
+Cache::forever('key', 'value');
+```
+
+The method `Cache::add()` will add an item to the cache only if it doesn't exist:
+```php
+// Returns true if it added the item or false if it already existed
+Cache::add('key', 'value', $minutes);
+```
+
+#### Helper functions
+
+**Checking if an item exists**
+
+You can check if an item exists in the cache using the `Cache::has()` function:
+```php
+Cache::has('key')
+```
+
+**Increment / Decrement value of an item**
+
+You can easily increment or decrement the value of an item using the corresponding functions:
+```php
+Cache::increment('key');
+Cache::increment('key', $amount);
+Cache::decrement('key');
+Cache::decrement('key', $amount);
+```
 # Blade Templating
 
 Blade is the templating system of Laravel, used to insert content inside a HTML template ( because `<?php echo();?>` is 2 hazbeen )
