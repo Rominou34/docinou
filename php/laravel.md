@@ -222,6 +222,28 @@ HTTP Middlewares are used to filter and redirect HTTP requests before processing
   // Assign multiple middlewares to a route
   Route::post('/', ['middleware' => ['Mid1', 'Mid2'], function() {}]);
   ```
+  * If you want to assign your middleware to each request, put it in the `protected $middleware` inside `app/Http/Kernel.php`:
+  ```php
+  protected $middleware = [
+        \App\Http\Middleware\MiddlewareName::class,
+    ];
+  ```
+  * You can assign a group of middleware by grouping them inside `app/Http/Kernel.php` and assigning the group:
+  ```php
+  protected $middlewareGroups = [
+        'midGroup' => [
+            \App\Http\Middleware\Middleware1::class,
+            \App\Http\Middleware\Middleware2::class,
+        ],
+  ```
+  and then in your file `routes.php`:
+  ```php
+  Route::group(['middleware' => ['midGroup']], function () {
+    Route::get('/', function () {
+      /* Do something */
+    });
+  });
+  ```
 
 ## Views
 
