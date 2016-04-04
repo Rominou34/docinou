@@ -353,7 +353,7 @@ This is the code if you are using MySQL, if you use PostGreSQL or SQLite there a
 
 **First of all, don't forget `use DB;` in order to use Databases**
 
-Laravel works a different way than pure PHP when it comes to SQL queries. In fact, while you actually use SQL in queries with pure PHP, with Laravel you use functions that will construct the query so you never really deal with true SQL ( like when you use MeteorJS )
+Laravel works a different way than pure PHP when it comes to SQL queries. In fact, while you actually use SQL in queries with pure PHP, with Laravel you use functions from the `DB` object that will construct the query so you never really deal with true SQL ( it's pretty much the same as MeteorJS )
 
 Here is an example query equal to `SELECT * FROM Users`:
 
