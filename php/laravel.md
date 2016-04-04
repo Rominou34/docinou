@@ -513,7 +513,7 @@ You can ( and should ) use control structures like if, else, loops, and all thes
 ```php
 @if (id == 1)
   // Do something
-@elsif (id > 1)
+@elseif (id > 1)
   // Do some other things
 @else
   // Do nothing
