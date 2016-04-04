@@ -87,6 +87,15 @@ This will call the function `msg()` in the controller `Controller` if you make a
 Route::get('msg/{id}', 'Controller@msg(id)');
 ```
 
+It's possible to filter the parameters using RegEx ( regulars expressions ):
+
+```php
+Route::get('{lang}/welcome', function() {
+  return view('welcome');
+})
+->where('lang', 'fr|en|es|it|de|po');
+```
+
 ## Controllers
 
 The default controller can be found at `app/Http/Controllers/Controller.php`
