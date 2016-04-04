@@ -12,7 +12,9 @@
   * [Middlewares](#middlewares)
   * [Views](#views)
 * Databases
-  * Soon...
+  * [Configuration](#configuration)
+  * [Query system](#query-system)
+  * [Complex queries](#complex-queries)
 * Services
   * [Cache](#cache)
 * [Blade Templating](#blade-templating)
@@ -319,6 +321,62 @@ You can also pass an object as a parameter:
 # Databases
 
 ## Configuration
+
+First of all, you'll need to modify some settings inside the file `config/database.php`:
+
+```
+'sqlsrv' => [
+    'driver' => 'sqlsrv',
+    'host' => env('DB_HOST', 'localhost'),
+    'database' => env('DB_DATABASE', 'forge'),
+    'username' => env('DB_USERNAME', 'forge'),
+    'password' => env('DB_PASSWORD', ''),
+    'charset' => 'utf8',
+    'prefix' => '',
+],
+```
+
+Normally, if you correctly configured your environment variables inside the `.env` file like you had to do it [here](#installation), this code will automatically load them
+
+This is the code if you are using MySQL, if you use PostGreSQL or SQLite there are other lines to change ( in the same file )
+
+## Query system
+
+**First of all, don't forget `use DB;` in order to use Databases**
+
+Laravel works a different way than pure PHP when it comes to SQL queries. In fact, while you actually use SQL in queries with pure PHP, with Laravel you use functions that will construct the query so you never really deal with true SQL ( like when you use MeteorJS )
+
+Here is an example query equal to `SELECT * FROM Users`:
+
+```php
+$users = DB::table('users')->get();
+```
+
+This is pretty much how all queries will be done using Laravel: **No SQL, just functions that build into SQL**
+
+If you want to display the users:
+```php
+foreach ($users as $user) {
+    echo $user->name;
+}
+```
+
+## Complex queries
+
+Now that we saw how queries were done using Laravel we can go a little deeper, and you'll see that it still follows SQL syntax while not using SQL at all.
+
+For example, if you want to select a single row using a condition ( `SELECT * FROM Users WHERE name = John` ) it will look like this:
+
+```php
+$user = DB::table('users')->where('name', 'John')->first();
+```
+
+This is still a `SELECT *` tho, if you want to extract only a column from this, use `->value()`:
+
+```php
+$email = DB::table('users')->where('name', 'John')->value('email');
+```
+
 
 # Services
 
