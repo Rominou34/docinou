@@ -462,6 +462,91 @@ Cache::increment('key', $amount);
 Cache::decrement('key');
 Cache::decrement('key', $amount);
 ```
+
+## Localization
+
+Laravel comes with an easy-to-use Localization system, allowing you to easily make your website readable in different languages. It works best with Blade templating language and allows you to replace text in the HTML by variables, which will then be transformed into different texts depending on the language.
+
+#### Initial configuration
+
+First, set a fallback language inside `config/app.php`:
+
+```
+'fallback_locale' => 'fr',
+```
+
+#### Setting the language
+
+To set the language, you can use the `App::setLocale()` method:
+```php
+Route::get('welcome/{locale}', function ($locale) {
+    App::setLocale($locale);
+});
+```
+
+The snippet of code will set the language to `en` if you make a request on `welcome/en`.
+
+**TIP:** If you use this system ( URL parameters ) to change the language, use a RegEx constraint on said URL parameters so a route `welcome/test` won't redirect on `welcome.php` while setting the language to `test`:
+```php
+Route::get('welcome/{lang}', function($lang) {
+  App::setLocale($lang);
+})
+->where('lang', 'fr|en|es|it');
+```
+
+#### Setting your language variables
+
+Now, just go into the folder `resources/lang` and create a folder for each language ( `resources/lang/fr`, `resources/lang/en` etc. )
+
+These are the folders in which you'll create your localization files.
+
+**Each file must be present under the same name inside all folders**
+
+that means that your structure will look like this:
+```
+resources
+  |- lang
+    |- fr
+    |  |- base.php
+    |- en
+       |- base.php
+```
+
+These files will be used to declare your language variables, which will be declared using an array of keyed strings. Here is pretty much how it will look like:
+
+```php
+<?php
+
+return [
+    'welcome' => 'Welcome to our application'
+];
+```
+
+And in the corresponding file in the `resources/lang/fr` folder:
+
+```php
+<?php
+
+return [
+    'welcome' => 'Bienvenue dans notre application'
+];
+```
+
+#### Using your language variables
+
+Now, to call your variables, just use the function `trans('file_path.variable')`
+
+For example, we will display the welcoming message from the previous part ( supposing the file is name `base.php` ):
+```php
+// Pure PHP
+echo(trans('base.welcome'));
+
+// Blade templating
+{{ trans('base.welcome') }}
+```
+
+And as a result, if our language was set to `en`, we'll see `"Welcome to our application"`, else if it was set to `fr` we'll see `"Bienvenue dans notre application"`.
+
 # Blade Templating
 
 Blade is the templating system of Laravel, used to insert content inside a HTML template ( because `<?php echo();?>` is 2 hazbeen )
