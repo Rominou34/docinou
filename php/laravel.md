@@ -17,6 +17,7 @@
   * [Complex queries](#complex-queries)
 * Services
   * [Cache](#cache)
+  * [Localization](#localization)
 * [Blade Templating](#blade-templating)
   * [Basics](#blade-basics)
   * [Control structures](#control-structures)
@@ -545,7 +546,7 @@ echo(trans('base.welcome'));
 {{ trans('base.welcome') }}
 ```
 
-And as a result, if our language was set to `en`, we'll see `"Welcome to our application"`, else if it was set to `fr` we'll see `"Bienvenue dans notre application"`.
+And as a result, if our language was set to `en`, we'll see `"Welcome to our application"`, else if it was set to `fr` we'll see `"Bienvenue dans notre application"`
 
 # Blade Templating
 
