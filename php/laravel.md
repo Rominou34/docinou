@@ -627,7 +627,7 @@ Mail::send('emails.welcome', $data, function ($message) {
     // Without the name
     $message->to('foo@example.com')->cc('bar@example.com');
     // With the name
-    $message->to('foo@example.com')->cc('bar@example.com');
+    $message->to('foo@example.com', 'Rominou')->cc('bar@example.com');
 });
 ```
 
