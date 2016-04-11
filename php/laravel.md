@@ -548,6 +548,75 @@ echo(trans('base.welcome'));
 
 And as a result, if our language was set to `en`, we'll see `"Welcome to our application"`, else if it was set to `fr` we'll see `"Bienvenue dans notre application"`
 
+## Mail
+
+#### Setting up your mail config
+
+So first, go into the `.env` file located at the root of your folder and change the mail settings:
+```
+MAIL_DRIVER=smtp
+MAIL_HOST= *Mail host*
+MAIL_PORT= *Port*
+MAIL_USERNAME= *Username*
+MAIL_PASSWORD= *Password*
+MAIL_ENCRYPTION=null
+```
+
+To test mail sending, I personally use [Mailtrap.io](https://mailtrap.io/), which allows you to send emails to fake inboxes ( the free plan is at 2 emails/seconds ), which is perfect to fool around or test your shit.
+
+#### Bracing yourself
+
+**First of all**, you'll need to use the Laravel Object `User` to send emails.
+
+So, *what is this shit ?*
+
+The User object is located at `App/User`, and it allows you to manage users ( in the context of e-mails, you create or retrieve a user and use his e-mail and name to send your mail )
+
+Don't forget the usual imports ( we Python now ):
+```
+use Mail;
+use App\User;
+```
+
+#### Sending e-mails
+
+So here's a sample code I used to send a test e-mail to myself:
+
+```php
+public function testMail(Request $request)//, $id)
+    {
+        // I create a new user
+        $user = new User;
+
+        // I set it an e-mail and a name
+        $user->email = 'ayxiit@gmail.com';
+        $user->name = 'Rominou';
+
+        // I was too lazy to create a view so I send a 503 error page
+        Mail::send('errors.503', ['user' => $user], function ($m) use ($user) {
+            $m->from('hello@app.com', 'Your Application');
+
+            $m->to($user->email, $user->name)->subject('Here is a nice 503 page');
+        });
+
+        // Just some feedback
+        return 'Mail sent';
+    }
+```
+
+**Note:** If you're using Mailtrap.io, don't look in the inbox you put in the e-mail ( here "ayxiit@gmail.com" ), the mail won't be sent but it will be displayed in your fake inbox on Mailtrap.io ( that's what the site is used for, sending e-mails to fake inboxes without spamming the shit out of people )
+
+So here's a recap of what this function did:
+* Create a user named 'Rominou', with a e-mail address of 'ayxiit@gmail.com'
+* Send an e-mail to this user, with these characteristics:
+  * The sender is named 'Your Application' and its e-mail is 'hello@app.com'
+  * The subject of the e-mail is 'Here is a nice 503 page'
+  * The content of the e-mail is the view 'errors.503'
+
+As you can see, the content of the e-mail is a view, so you'll have to create a folder `emails` containing all your views so you don't get lost.
+
+Also, as with every views, you can pass parameters, so if you use a code like this `{{ $user->name }}` ( or `<?php echo($user->name); ?>` in pure PHP ), you are able to display the name of the user in your mail, that's neat.
+
 # Blade Templating
 
 Blade is the templating system of Laravel, used to insert content inside a HTML template ( because `<?php echo();?>` is 2 hazbeen )
