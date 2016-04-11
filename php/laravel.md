@@ -18,6 +18,7 @@
 * Services
   * [Cache](#cache)
   * [Localization](#localization)
+  * [Mail](#mail)
 * [Blade Templating](#blade-templating)
   * [Basics](#blade-basics)
   * [Control structures](#control-structures)
