@@ -618,6 +618,39 @@ As you can see, the content of the e-mail is a view, so you'll have to create a 
 
 Also, as with every views, you can pass parameters, so if you use a code like this `{{ $user->name }}` ( or `<?php echo($user->name); ?>` in pure PHP ), you are able to display the name of the user in your mail, that's neat.
 
+#### Advanced functions
+
+If you wish to send e-mails without having to create a new `App/User` each time, just use the e-mail address directly with the `->to(adress, name)` method:
+```php
+Mail::send('emails.welcome', $data, function ($message) {
+    $message->from('us@example.com', 'Laravel');
+    // Without the name
+    $message->to('foo@example.com')->cc('bar@example.com');
+    // With the name
+    $message->to('foo@example.com')->cc('bar@example.com');
+});
+```
+
+Note I also used the `->cc(address)` method, meaning I sent a carbon copy to "bar@example.com"
+
+There are a lot of methods like that speaking for themselves, so I'll just post them here without explaining much:
+```php
+$message->from($address, $name = null);
+$message->sender($address, $name = null);
+$message->to($address, $name = null);
+$message->cc($address, $name = null);
+$message->bcc($address, $name = null);
+$message->replyTo($address, $name = null);
+$message->subject($subject);
+$message->priority($level);
+$message->attach($pathToFile, array $options = []);
+
+// Attach a file from a raw $data string...
+$message->attachData($data, $name, array $options = []);
+
+// Get the underlying SwiftMailer message instance...
+$message->getSwiftMessage();
+```
 # Blade Templating
 
 Blade is the templating system of Laravel, used to insert content inside a HTML template ( because `<?php echo();?>` is 2 hazbeen )
