@@ -336,8 +336,8 @@ You can also pass an object as a parameter:
 First of all, you'll need to modify some settings inside the file `config/database.php`:
 
 ```
-'sqlsrv' => [
-    'driver' => 'sqlsrv',
+'mysql' => [
+    'driver' => 'mysql',
     'host' => env('DB_HOST', 'localhost'),
     'database' => env('DB_DATABASE', 'forge'),
     'username' => env('DB_USERNAME', 'forge'),
@@ -386,6 +386,36 @@ This is still a `SELECT *` tho, if you want to extract only a column from this, 
 
 ```php
 $email = DB::table('users')->where('name', 'John')->value('email');
+```
+
+If you have a lot of data and want to extract it divided into little groups, use the `chunk()` function
+
+**Note:** This function is a little bit weird at first. Let's say you have 250 products and run this command:
+```php
+DB::table('table')->orderBy('id')->chunk(100, function($products) {
+  foreach ($products as $prod) {
+    echo($prod->name);
+  }
+});
+```
+
+It will do this:
+* Take 100 products from the DB
+* Display all of them
+* Take the next 100
+* Display them
+* Take the last 50
+
+So you will actually end up with all your 250 products displayed, but they just won't be displayed in one run ( which will make the user wait if you have a lot ), they will display by groups of 100.
+
+**Important note:** If you just want the 100 products ( you want it to stop after one run ), make the function retrun false:
+```php
+DB::table('table')->orderBy('id')->chunk(100, function($products) {
+  foreach ($products as $prod) {
+    echo($prod->name);
+  }
+  return false;
+});
 ```
 
 
