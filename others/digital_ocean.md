@@ -110,3 +110,11 @@ I'm gonna write it later, for now these 2 tutorials should help:
 [Creating the virtualhost](https://www.digitalocean.com/community/questions/how-do-i-setup-subdomains-for-my-droplet?answer=1621)
 
 [Redirecting it to a folder](https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-virtual-hosts-on-ubuntu-12-04-lts)
+
+# Enabling HTTPS
+
+https://community.letsencrypt.org/t/always-redirect-to-https/10838/9
+
+https://certbot.eff.org/#ubuntuxenial-apache
+
+http://askubuntu.com/questions/184791/how-to-disable-non-ssl-connection-on-apache-2-2
