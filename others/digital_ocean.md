@@ -102,3 +102,11 @@ Now kill the sshd process to make it restart, taking your change into account:
 ps auxw | grep ssh
 ```
 This will show the current ssh processes, now use `kill -HUP [PID]` to kill each one containing `sshd` in COMMAND to kill them ( `[PID]` being the value in the PID column )
+
+# X. Adding subdomains
+
+I'm gonna write it later, for now these 2 tutorials should help:
+
+[Creating the virtualhost](https://www.digitalocean.com/community/questions/how-do-i-setup-subdomains-for-my-droplet?answer=1621)
+
+[Redirecting it to a folder](https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-virtual-hosts-on-ubuntu-12-04-lts)
