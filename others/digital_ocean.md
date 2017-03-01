@@ -103,7 +103,7 @@ ps auxw | grep ssh
 ```
 This will show the current ssh processes, now use `kill -HUP [PID]` to kill each one containing `sshd` in COMMAND to kill them ( `[PID]` being the value in the PID column )
 
-# X. Adding subdomains
+## X. Adding subdomains
 
 I'm gonna write it later, for now these 2 tutorials should help:
 
@@ -111,10 +111,17 @@ I'm gonna write it later, for now these 2 tutorials should help:
 
 [Redirecting it to a folder](https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-virtual-hosts-on-ubuntu-12-04-lts)
 
-# Enabling HTTPS
+## Enabling HTTPS
 
 https://community.letsencrypt.org/t/always-redirect-to-https/10838/9
 
 https://certbot.eff.org/#ubuntuxenial-apache
 
 http://askubuntu.com/questions/184791/how-to-disable-non-ssl-connection-on-apache-2-2
+
+
+# IMPORTANT
+
+To install the `sendmail` package, install the `sendmail` wrapper package and not the `sendmail-bin` individual package, because it won't delete any log and it will kill your storage
+
+If you installed `sendmail-bin`, install `sensible-mda`
