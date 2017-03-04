@@ -291,15 +291,137 @@ Finally, restart Apache so your modifications will be taken into account:
 sudo service apache2 restart
 ```
 
-## X. Adding subdomains
+## 6. Adding a domain and subdomains
 
-I'm gonna write it later, for now these 2 tutorials should help:
+In this part, I'm gonna explain how you add a domain and then multiple subdomains to your website.
 
-[Creating the virtualhost](https://www.digitalocean.com/community/questions/how-do-i-setup-subdomains-for-my-droplet?answer=1621)
+If you want to add another domain name to your server ( host a.com and b.com on the same VPS ), it's the same thing as adding subdomains
+
+### 6.1 Adding a domain
+
+#### 6.1.1 DNS side
+
+So first you need to tell the name server to redirect your domain to your server.
+
+Go into the settings of your domain name provider and modify the existing A record ( or create one of it doesn't exist ) so that *yourdomain.com* or whatever it is redirects to your server IP.
+
+Now log into Digital Ocean and go into the "Networking" section.
+
+Here, add a domain, and create an A record redirecting to your server ( you can choose it from the list )
+
+Now wait for the DNS to propagate and you're good to go
+
+#### 6.1.2 Server side
+
+*This step is optional for your first domain but it will be required if you want to add other domains or subdomains. If you only have one domain you can skip it but it's necessary to do that if you plan of activating HTTPS on your website so I'm still gonna explain it*
+
+You need to create a site on your server, so that Apache knows that *yourdomain.com* will redirect to a certain folder on your server ( when you have multiple domains, you have one folder per domain )
+
+For that, you need to create a site inside the `sites-available` folder of Apache, so navigate into it:
+```shell
+cd /etc/apache2/sites-available
+```
+
+Now list all the files, you should have a file named something like `default.conf` ( it's named `000-default.conf` on mine ). That's the file representing your default site, pointing to `/var/www/html`
+
+Now you need to edit ( I'll use vim ):
+```shell
+vim 000-default.conf
+```
+
+You should have something that looks like this:
+```
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html
+    [...]
+</VirtualHost>
+```
+
+You need to add two lines, setting the `ServerName` and the `ServerAlias`, so it looks like this:
+```
+<VirtualHost *:80>
+    ServerAdmin webmaster@yourdomain.com
+    ServerName yourdomain.com
+    ServerAlias www.yourdomain.com
+    DocumentRoot /var/www/html
+    [...]
+</VirtualHost>
+```
+
+Then, normally you need to enable the site using `a2ensite default` but the default one is already enabled so just reload apache:
+```shell
+sudo service apache2 reload
+```
+
+### 6.2 Adding subdomains
+
+In order to add subdomains or multiple domains, it's pretty much the same thing than adding a domain name, except that you actually stuff to do server-side ( when you add your first domain it's optional )
+
+#### 6.2.1 DNS side
+
+As in step 6.1.1, just create an A record redirecting *sub.yourdomain.com* to your server IP, both in your domain name provider and in Digital Ocean
+
+Now if you stop here, *sub.yourdomain.com* will just redirect to `/var/www/html` so it will display the same page as *yourdomain.com*
+
+To solve this problem, you need to do some stuff server side to tell Apache that your subdomain or new domain will display a different folder of your server
+
+#### 6.2.2 Server side
+
+So first, create a folder inside `/var/www` where you will put your new domain files, for this example we'll call it sub so I create a folder name `sub`:
+```shell
+cd /var/www
+mkdir sub
+```
+
+Put your subdomain files inside of it and continue
+
+So in order to have Apache redirect your subdomain into that folder, we need to create a Virtual Host. For that, navigate into the `sites-available` folder of Apache and create a new `.conf` file with the name of your subdomain:
+```shell
+cd /etc/apache2/sites-available
+vim sub.conf
+```
+
+Now create a VirtualHost on port 80 redirecting to the folder created previously but copying and pasting this:
+```
+<VirtualHost *:80>
+    ServerAdmin webmaster@yourdomain.com
+    ServerName sub.yourdomain.com
+    DocumentRoot /var/www/sub
+</VirtualHost>
+```
+
+Save the file and now, the only thing that's left to do is to enable the site using the `a2ensite` command:
+```shell
+a2ensite sub
+```
+
+Now just reload Apache:
+```shell
+sudo service apache2 reload
+```
+
+Now visit *sub.yourdomain.com* and you should see the content of `/var/www/sub`
+
+## 7. Enabling HTTPS
+
+We'll be using [Let's Encrypt](https://letsencrypt.org/) to get free SSL/TLS certificates in order to enable HTTPS on our website
+
+Run this command:
+```shell
+sudo apt-get install python-letsencrypt-apache
+```
+
+Run it:
+```shell
+letsencrypt --apache
+```
+
+### 8. Some links
+
+[Creating a virtualhost](https://www.digitalocean.com/community/questions/how-do-i-setup-subdomains-for-my-droplet?answer=1621)
 
 [Redirecting it to a folder](https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-virtual-hosts-on-ubuntu-12-04-lts)
-
-## Enabling HTTPS
 
 https://community.letsencrypt.org/t/always-redirect-to-https/10838/9
 
