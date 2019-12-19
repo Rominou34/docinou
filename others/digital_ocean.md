@@ -154,6 +154,10 @@ Finally, enter this command to see the version of MySQL you have installed ( if 
 mysql -V
 ```
 
+#### 4.2.a Add an user
+
+https://matomo.org/faq/how-to-install/faq_23484/
+
 ### 4.3 PHP
 
 Now we are going to install PHP.
